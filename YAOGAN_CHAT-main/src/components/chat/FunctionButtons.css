@@ -1,0 +1,88 @@
+.function-buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 16px;
+  background-color: transparent;
+}
+
+.function-button {
+  padding: 12px 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #dadce0;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #202124;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.function-button:hover {
+  background-color: #f1f3f4;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.1);
+}
+
+.function-button:active {
+  background-color: #e8eaed;
+  transform: scale(0.97);
+}
+
+.function-button.active {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+  border-color: #d2e3fc;
+}
+
+.function-controls .function-button {
+  padding: 12px 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #dadce0;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #202124;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.function-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f1f1f1;
+  color: #9aa0a6;
+  border-color: #e0e0e0;
+  box-shadow: none;
+}
+
+.function-button:disabled:hover {
+  background-color: #f1f1f1;
+  box-shadow: none;
+  transform: none;
+}
+
+.toggle-canvas-button {
+  position: relative;
+}
+
+body:has(.right-sidebar.expanded) .toggle-canvas-button {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+  border-color: #d2e3fc;
+}
+
+.right-sidebar.expanded~.chat-area .toggle-canvas-button {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+  border-color: #d2e3fc;
+}
+
+.canvas-view-button.toggle-canvas-button {
+  position: relative;
+  padding: 8px 16px;
+}

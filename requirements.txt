@@ -1,0 +1,27 @@
+# 深度学习核心框架
+torch==2.3.0
+torchaudio==2.3.0
+
+# Transformer和大模型相关
+transformers==4.44.2
+accelerate==0.30.1
+peft==0.14.0
+datasets==4.0.0
+tokenizers==0.19.1
+safetensors==0.6.2
+
+# 推理优化
+vllm==0.4.2
+timm==0.9.10
+
+
+# 数据处理
+numpy==1.26.4
+pandas==2.3.1
+pillow==10.4.0
+
+
+# 其他工具
+requests==2.32.4
+tqdm==4.67.1
+pyyaml==6.0.2

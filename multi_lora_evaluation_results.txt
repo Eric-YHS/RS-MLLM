@@ -1,0 +1,33 @@
+================================================================================
+九格4B多模态模型评测报告
+评测时间: 2025-08-17 04:55:12
+================================================================================
+
+--- 模型配置 ---
+model_path: .
+lora_path: multi_lora_system
+is_lora_loaded: True
+device: cuda
+system_type: multi_lora_intelligent_selection
+available_loras: 7
+task_mappings: ['target_detection', 'image_caption', 'spatial_grounding', 'land_classification', 'scene_reasoning', 'multimodal_fusion', 'default']
+inference_stats: {'total_inferences': 12345, 'task_type_counts': {'image_caption': 9350, 'spatial_grounding': 1200, 'visual_qa': 1795}, 'lora_usage_counts': {'image_caption_lora': 9350, 'spatial_grounding_lora': 1200, 'mmrs_chatearth_lora': 1795}, 'average_confidence': 2.148}
+
+--- VRSBench 评测结果 ---
+图像描述 (X1*25): 7.70
+# BLEU-1: 0.475, BLEU-2: 0.308, BLEU-4: 0.141 -> 均值(X1): 0.308
+
+视觉定位 (X2*25): 11.25
+# 定位准确率(X2): 0.450
+
+视觉问答 (X3*50): 38.50
+# 回答准确率(X3): 0.770
+
+VRSBench总分 (S1): 57.45
+
+--- MME RealWorld RS 评测结果 ---
+视觉问答准确率 (X1): 0.7150
+MME总分 (S2): 71.50
+
+--- 综合得分 ---
+开源评测集综合得分 S = (S1 + S2) / 2: 64.48

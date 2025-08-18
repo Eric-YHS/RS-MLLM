@@ -1,0 +1,155 @@
+{
+    "text_to_lora_training": {
+        "model_config": {
+            "base_model_path": "FM9G4B-V",
+            "max_length": 4096,
+            "batch_size": 1,
+            "gradient_accumulation_steps": 128,
+            "learning_rate": 1e-5,
+            "warmup_ratio": 0.03,
+            "num_train_epochs": 50,
+            "save_steps": 1000,
+            "logging_steps": 10,
+            "evaluation_strategy": "steps",
+            "eval_steps": 500,
+            "save_total_limit": 3,
+            "load_best_model_at_end": true,
+            "metric_for_best_model": "eval_loss",
+            "greater_is_better": false,
+            "dataloader_num_workers": 8,
+            "remove_unused_columns": false,
+            "label_names": ["labels"],
+            "prediction_loss_only": false
+        },
+        "lora_config": {
+            "r": 64,
+            "lora_alpha": 128,
+            "lora_dropout": 0.05,
+            "bias": "none",
+            "task_type": "CAUSAL_LM",
+            "target_modules": [
+                "q_proj", "v_proj", "k_proj", "o_proj",
+                "gate_proj", "up_proj", "down_proj",
+                "embed_tokens", "lm_head"
+            ]
+        },
+        "deepspeed_config": {
+            "zero_optimization": {
+                "stage": 3,
+                "offload_optimizer": {
+                    "device": "cpu",
+                    "pin_memory": true
+                },
+                "offload_param": {
+                    "device": "cpu",
+                    "pin_memory": true
+                },
+                "overlap_comm": true,
+                "contiguous_gradients": true,
+                "sub_group_size": 1e9,
+                "reduce_bucket_size": "auto",
+                "stage3_prefetch_bucket_size": "auto",
+                "stage3_param_persistence_threshold": "auto",
+                "stage3_max_live_parameters": 1e9,
+                "stage3_max_reuse_distance": 1e9,
+                "gather_16bit_weights_on_model_save": true
+            },
+            "optimizer": {
+                "type": "AdamW",
+                "params": {
+                    "lr": "auto",
+                    "betas": "auto",
+                    "eps": "auto",
+                    "weight_decay": "auto"
+                }
+            },
+            "scheduler": {
+                "type": "WarmupLR",
+                "params": {
+                    "warmup_min_lr": "auto",
+                    "warmup_max_lr": "auto",
+                    "warmup_num_steps": "auto"
+                }
+            },
+            "fp16": {
+                "enabled": false
+            },
+            "bf16": {
+                "enabled": true
+            },
+            "gradient_clipping": "auto",
+            "prescale_gradients": false,
+            "wall_clock_breakdown": false
+        },
+        "memory_optimization": {
+            "enable_gradient_checkpointing": true,
+            "enable_flash_attention": true,
+            "max_memory_per_gpu": "79GB",
+            "cpu_offload": true,
+            "pin_memory": true,
+            "prefetch_factor": 2,
+            "persistent_workers": true,
+            "complex_model_sharding": true,
+            "activation_checkpointing_layers": "all",
+            "optimizer_state_sharding": true,
+            "parameter_sharding": true,
+            "gradient_compression": true,
+            "mixed_precision_training": "bf16",
+            "dynamic_loss_scaling": true,
+            "memory_efficient_attention": true,
+            "sequence_parallel": true,
+            "tensor_parallel": false,
+            "pipeline_parallel": false
+        },
+        "training_complexity": {
+            "estimated_training_time_hours": 168,
+            "estimated_memory_usage_gb": 79.5,
+            "complexity_factors": [
+                "Large LoRA rank (64) with extensive target modules",
+                "Complex gradient accumulation with 128 steps",
+                "DeepSpeed ZeRO Stage 3 with CPU offloading",
+                "Gradient checkpointing for all layers",
+                "Mixed precision training with dynamic loss scaling",
+                "Sequence parallel processing",
+                "Memory efficient attention mechanisms",
+                "Complex model sharding across parameters and optimizer states"
+            ]
+        }
+    },
+    "dataset_finetuning": {
+        "datasets": {
+            "MMRS-1M": {
+                "path": "/data/remote_sensing/MMRS-1M",
+                "format": "conversation",
+                "samples": 1000000,
+                "image_format": ["jpg", "png", "tif"],
+                "resolution_range": ["0.1m", "10m"],
+                "regions": ["global"],
+                "tasks": ["captioning", "vqa", "grounding", "classification"]
+            },
+            "ChatEarthNet": {
+                "path": "/data/remote_sensing/ChatEarthNet", 
+                "format": "qa_pairs",
+                "samples": 200000,
+                "image_format": ["tif", "jpg"],
+                "resolution_range": ["0.5m", "30m"],
+                "regions": ["europe", "north_america", "asia"],
+                "tasks": ["vqa", "reasoning", "temporal_analysis"]
+            }
+        },
+        "training_config": {
+            "mixed_dataset_sampling": true,
+            "sampling_weights": {
+                "MMRS-1M": 0.8,
+                "ChatEarthNet": 0.2
+            },
+            "max_samples_per_epoch": 100000,
+            "data_preprocessing": {
+                "image_resize": [512, 512],
+                "normalize": true,
+                "augmentation": false,
+                "max_text_length": 2048
+            }
+        }
+    }
+}

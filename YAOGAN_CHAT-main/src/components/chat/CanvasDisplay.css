@@ -1,0 +1,60 @@
+.canvas-display {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+}
+
+.canvas-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  background-color: white;
+}
+
+.image-canvas-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.canvas-main-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.download-button-container {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  z-index: 100;
+}
+
+.download-button {
+  padding: 8px 15px;
+  border-radius: 4px;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.download-button:hover {
+  background-color: #3b78e7;
+}

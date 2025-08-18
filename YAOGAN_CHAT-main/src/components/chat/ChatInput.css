@@ -1,0 +1,128 @@
+.chat-input-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.chat-input-form {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #dadce0;
+  border-radius: 24px;
+  padding: 10px 16px;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.1);
+  position: relative;
+}
+
+.chat-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 12px 0;
+  font-size: 16px;
+  line-height: 1.5;
+  resize: none;
+  max-height: 150px;
+  outline: none;
+  font-family: 'Google Sans', Arial, sans-serif;
+  transition: all 0.3s ease;
+}
+
+.chat-input.disabled {
+  color: #9aa0a6;
+  font-style: italic;
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
+/* 标记物体标签样式 */
+.mark-object-tag {
+  display: flex;
+  align-items: center;
+  background-color: #e8f0fe;
+  color: #1a73e8;
+  border-radius: 16px;
+  padding: 3px 8px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 10px;
+  white-space: nowrap;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.mark-object-tag .cancel-mark-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background-color: transparent;
+  color: #1a73e8;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.mark-object-tag .cancel-mark-button:hover {
+  background-color: #d2e3fc;
+}
+
+/* 当有标记物体标签时的输入框样式 */
+.chat-input.with-mark-tag {
+  padding-left: 5px;
+}
+
+.send-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #1a73e8;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: 10px;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3);
+}
+
+.send-button:hover {
+  background-color: #1967d2;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.4);
+}
+
+.send-button:disabled {
+  background-color: #dadce0;
+  color: #9aa0a6;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.send-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.send-button.cancel-button {
+  background-color: #f44336;
+  transition: all 0.3s ease;
+  animation: pulse 1.5s infinite;
+}
+
+.send-button.cancel-button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(244, 67, 54, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); }
+}

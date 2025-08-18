@@ -1,0 +1,61 @@
+{
+    "lora_configs": {
+        "target_detection_lora": {
+            "path": "mul_lora_systems/loras/text_to_lora/target_detection_lora",
+            "description": "目标识别与计数能力: 精准检测并统计遥感图像中的建筑物、车辆、道路、林地等关键目标，要求模型能够适应不同尺度、不同分辨率和场景复杂度下的目标识别任务。要求通过对多模态数据的分析，精准定位图像中的目标，并进行有效的目标计数。",
+            "training_method": "text_to_lora",
+            "capabilities": ["object_detection", "counting", "multi_scale_detection"],
+            "training_text": "目标识别与计数能力: 精准检测并统计遥感图像中的建筑物、车辆、道路、林地等关键目标，要求模型能够适应不同尺度、不同分辨率和场景复杂度下的目标识别任务。要求通过对多模态数据的分析，精准定位图像中的目标，并进行有效的目标计数。"
+        },
+        "image_caption_lora": {
+            "path": "mul_lora_systems/loras/text_to_lora/image_caption_lora",
+            "description": "图像描述与语义生成能力: 自动生成遥感图像的自然语言描述，特别是在复杂场景下，对图像内容进行精准的语义理解和自然语言生成。模型应能够根据不同遥感图像的特征，生成详细且准确的文本描述，包括地物类型、目标位置、场景变化等信息。",
+            "training_method": "text_to_lora",
+            "capabilities": ["image_captioning", "semantic_generation", "scene_description"],
+            "training_text": "图像描述与语义生成能力: 自动生成遥感图像的自然语言描述，特别是在复杂场景下，对图像内容进行精准的语义理解和自然语言生成。模型应能够根据不同遥感图像的特征，生成详细且准确的文本描述，包括地物类型、目标位置、场景变化等信息。"
+        },
+        "spatial_grounding_lora": {
+            "path": "mul_lora_systems/loras/text_to_lora/spatial_grounding_lora",
+            "description": "空间感知与定位能力: 精准识别遥感图像中的目标位置，并能够基于图像中目标的地理信息提供空间定位能力。要求模型能够支持灾害响应、态势侦查等任务，在超高分辨率遥感图像中，通过精确的空间感知标定目标位置。",
+            "training_method": "text_to_lora",
+            "capabilities": ["spatial_localization", "geographic_positioning", "disaster_response"],
+            "training_text": "空间感知与定位能力: 精准识别遥感图像中的目标位置，并能够基于图像中目标的地理信息提供空间定位能力。要求模型能够支持灾害响应、态势侦查等任务，在超高分辨率遥感图像中，通过精确的空间感知标定目标位置。"
+        },
+        "land_classification_lora": {
+            "path": "mul_lora_systems/loras/text_to_lora/land_classification_lora",
+            "description": "地物分类与状态评估能力: 高效识别遥感图像中的地表覆盖类型，并提供区域状态分析。包括城市扩张监测、灾害损害评估、农业土地使用变化等任务，模型应能够在不同地理区域和场景下对地物进行精确分类与状态评估。",
+            "training_method": "text_to_lora",
+            "capabilities": ["land_cover_classification", "urban_monitoring", "damage_assessment"],
+            "training_text": "地物分类与状态评估能力: 高效识别遥感图像中的地表覆盖类型，并提供区域状态分析。包括城市扩张监测、灾害损害评估、农业土地使用变化等任务，模型应能够在不同地理区域和场景下对地物进行精确分类与状态评估。"
+        },
+        "scene_reasoning_lora": {
+            "path": "mul_lora_systems/loras/text_to_lora/scene_reasoning_lora",
+            "description": "场景推理与决策能力: 基于遥感图像的时空信息进行目标行为状态推测，能够推断出目标的未来行为或环境变化，支持对动态环境的监控与趋势预测。该能力应能够支持规划最优路径、趋势判断等应用，尤其是在复杂的遥感场景下。",
+            "training_method": "text_to_lora",
+            "capabilities": ["temporal_reasoning", "trend_prediction", "path_planning"],
+            "training_text": "场景推理与决策能力: 基于遥感图像的时空信息进行目标行为状态推测，能够推断出目标的未来行为或环境变化，支持对动态环境的监控与趋势预测。该能力应能够支持规划最优路径、趋势判断等应用，尤其是在复杂的遥感场景下。"
+        },
+        "multimodal_fusion_lora": {
+            "path": "mul_lora_systems/loras/text_to_lora/multimodal_fusion_lora",
+            "description": "跨模态融合与协同推理能力: 在遥感影像与其他模态数据（如文本、语音等）之间进行有效的融合与协同推理。能够将不同来源的信息结合起来，提高遥感影像的多模态理解能力，支持更加复杂的任务，如灾害应急响应与资源调度。",
+            "training_method": "text_to_lora",
+            "capabilities": ["multimodal_fusion", "cross_modal_reasoning", "emergency_response"],
+            "training_text": "跨模态融合与协同推理能力: 在遥感影像与其他模态数据（如文本、语音等）之间进行有效的融合与协同推理。能够将不同来源的信息结合起来，提高遥感影像的多模态理解能力，支持更加复杂的任务，如灾害应急响应与资源调度。"
+        },
+        "mmrs_chatearth_lora": {
+            "path": "mul_lora_systems/loras/dataset_finetuned/mmrs_chatearth_lora",
+            "description": "基于MMRS-1M和ChatEarthNet数据集微调的通用遥感理解LoRA，具备综合的遥感图像理解能力",
+            "training_method": "dataset_finetuning",
+            "capabilities": ["general_remote_sensing", "comprehensive_understanding"],
+            "datasets": ["MMRS-1M", "ChatEarthNet"],
+            "training_samples": 1200000
+        }
+    },
+    "model_config": {
+        "base_model": "FM9G4B-V",
+        "lora_rank": 16,
+        "lora_alpha": 32,
+        "lora_dropout": 0.1,
+        "target_modules": ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+    }
+}
