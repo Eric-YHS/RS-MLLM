@@ -1,6 +1,6 @@
 # **"NineGrids" Multimodal Large Model Remote Sensing Analysis System - Operation Guide**
 
-![CI](https://img.shields.io/github/actions/workflow/status/Eric-YHS/RS-MLLM/ci.yml?branch=main&logo=githubactions&logoColor=white&label=CI)
+![CI](https://img.shields.io/github/actions/workflow/status/Eric-YHS/RS-MLLM/ci.yml?branch=master&logo=githubactions&logoColor=white&label=CI)
 ![License](https://img.shields.io/badge/code-MIT-orange)
 
 ## **System Demo**
