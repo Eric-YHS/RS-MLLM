@@ -1,3 +1,5 @@
+import ast
+import json
 import os
 from dotenv import load_dotenv
 from pathlib import Path
@@ -6,7 +8,21 @@ load_dotenv()
 
 API_PREFIX = os.getenv("API_PREFIX", "/api")
 
-CORS_ORIGINS = eval(os.getenv("CORS_ORIGINS", '["http://localhost:3000"]'))
+
+def _parse_origins(raw: str):
+    """解析 CORS_ORIGINS：优先按 JSON 数组，兼容 .env 里写 Python 列表字面量的旧写法。"""
+    try:
+        value = json.loads(raw)
+    except ValueError:
+        value = ast.literal_eval(raw)
+    if isinstance(value, str):
+        value = [value]
+    if not isinstance(value, list):
+        raise ValueError("CORS_ORIGINS 需要是一个字符串数组")
+    return value
+
+
+CORS_ORIGINS = _parse_origins(os.getenv("CORS_ORIGINS", '["http://localhost:3000"]'))
 
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))

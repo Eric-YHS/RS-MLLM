@@ -1,3 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# 模型权重（体积大，需自行放置，见 README「Model and Data Preparation」）
 pytorch_model.bin
+*.safetensors
+*.ckpt
+*.pth
+
+# LoRA 适配器与训练输出
 mul_lora_systems/loras/
 lora/simple_lora/
+output/
+outputs/
+
+# 数据集
+open_datasets/
+valid/
+valid(test)/
+
+# 运行产物与日志
+*.log
+runs/
+wandb/
+
+# 本地环境与编辑器
+.env.local
+.idea/
+.vscode/
+.DS_Store

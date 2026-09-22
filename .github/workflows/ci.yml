@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Byte-compile all sources
+        run: |
+          python -m compileall -q . -x '(node_modules|\.git|__pycache__)'
+
+      - name: Validate model and system JSON configs
+        run: |
+          python - <<'PY'
+          import json, pathlib, re, sys
+
+          for rel in [
+              "config.json", "tokenizer_config.json", "special_tokens_map.json",
+              "added_tokens.json", "preprocessor_config.json",
+          ] + [str(p) for p in pathlib.Path("mul_lora_systems/configs").glob("*.json")]:
+              path = pathlib.Path(rel)
+              if not path.is_file():
+                  sys.exit(f"缺少配置文件 {rel}")
+              json.loads(path.read_text(encoding="utf-8"))
+
+          # config.json 的 auto_map 决定 transformers 用哪份 remote code 建模，
+          # 引用写错只在加载权重时才报错，这里提前校验模块与类都存在
+          cfg = json.loads(pathlib.Path("config.json").read_text(encoding="utf-8"))
+          for key, ref in cfg.get("auto_map", {}).items():
+              mod_name, _, cls_name = ref.partition(".")
+              mod = pathlib.Path(f"{mod_name}.py")
+              if not mod.is_file():
+                  sys.exit(f"auto_map[{key}] 引用的模块不存在：{ref}")
+              if not re.search(rf"^class {cls_name}\b", mod.read_text(encoding="utf-8"), re.M):
+                  sys.exit(f"auto_map[{key}] 引用的类不存在：{ref}")
+
+          # LoRA 清单必须能被选择器使用：每个适配器都要有 path 与说明
+          loras = json.loads(pathlib.Path("mul_lora_systems/configs/lora_config.json").read_text(encoding="utf-8"))
+          for name, item in loras["lora_configs"].items():
+              if not item.get("path"):
+                  sys.exit(f"LoRA {name} 缺少 path")
+          # lora_selector.LORASelector 里的 task→<task>_lora 是硬编码的，
+          # 两份配置不一致时不会报错、只会默默回退到默认适配器，这里提前校验
+          mapping = json.loads(pathlib.Path("mul_lora_systems/configs/task_mapping.json").read_text(encoding="utf-8"))
+          for task in mapping["task_priority"]:
+              if f"{task}_lora" not in loras["lora_configs"]:
+                  sys.exit(f"task_priority 里的 {task} 在 lora_config.json 中没有对应的 {task}_lora")
+          if mapping["default_lora"] not in loras["lora_configs"]:
+              sys.exit(f"default_lora {mapping['default_lora']} 未在 lora_config.json 中定义")
+          if not mapping["keywords"]:
+              sys.exit("task_mapping.json 的 keywords 为空，任务分类器无法工作")
+          print(f"ok: {len(loras['lora_configs'])} 个 LoRA 配置与 task_mapping 一致，auto_map 校验通过")
+          PY
+
+      - name: Check Dockerfile entrypoints exist
+        run: |
+          python - <<'PY'
+          import pathlib, re, sys
+
+          for rel in ["Dockerfile", "YAOGAN_CHAT-main/backend/Dockerfile"]:
+              text = pathlib.Path(rel).read_text(encoding="utf-8")
+              m = re.search(r'^CMD\s+\[(.*)\]', text, re.M)
+              if not m:
+                  sys.exit(f"{rel} 没有 CMD")
+              for token in re.findall(r'"([^"]+\.py)"', m.group(1)):
+                  if not pathlib.Path(token).is_file():
+                      sys.exit(f"{rel} 的 CMD 引用了不存在的脚本：{token}")
+          print("ok: Dockerfile 入口脚本均存在")
+          PY
+
+      - name: Fail on tracked build artifacts
+        run: |
+          set -euo pipefail
+          out=$(git ls-files | grep -E '(__pycache__|\.pyc$|/node_modules/|\.bin$|\.safetensors$)' || true)
+          if [ -n "$out" ]; then
+            echo "::error::以下编译产物/权重不应入库："
+            echo "$out"
+            exit 1
+          fi

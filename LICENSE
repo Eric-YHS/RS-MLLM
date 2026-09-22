@@ -1,0 +1,54 @@
+MIT License
+
+Copyright (c) 2025 Eric-YHS
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+Scope and third-party components
+
+The MIT licence above covers the Multi-LoRA system and evaluation scripts written
+for this repository, i.e. `mul_lora_systems/`, `evaluate_official.py` and `lora/`.
+
+`YAOGAN_CHAT-main/` is the demo web system (React front-end + FastAPI back-end)
+shipped alongside the model code. It carries no licence file of its own and its
+upstream authorship is not recorded here, so please confirm its terms before
+re-licensing or redistributing that sub-directory.
+
+The following files are upstream model code and keep their original licences and
+copyright headers; they are redistributed here so the checkpoint can be loaded
+with `trust_remote_code=True`:
+
+- `modeling_fm9g.py`, `configuration_fm9g.py`, `tokenization_fm9g.py`,
+  `modeling_fm9gv.py`, `image_processing_fm9gv.py`, `processing_fm9gv.py`,
+  `tokenization_fm9gv_fast.py` - derived from the "NineGrids" (FM9G / 九章文澜)
+  remote-sensing multimodal model implementation, which itself is based on the
+  HuggingFace LLaMA implementation (Apache License 2.0).
+- `modeling_navit_siglip.py` - NaViT SigLIP vision encoder (InternLM/Shell-Camel
+  lineage, Apache License 2.0).
+- `resampler.py` - Copyright (c) Alibaba Cloud, Qwen-VL style resampler.
+- `tokenizer.json`, `tokenizer.model`, `tokenizer_config.json`,
+  `special_tokens_map.json`, `added_tokens.json`, `config.json`,
+  `preprocessor_config.json` - tokenizer / processor assets shipped with the
+  official checkpoint.
+
+The base model weights (`pytorch_model.bin`, not stored in this repository) are
+distributed separately by the NineGrids team under their own licence terms - check
+the upstream model card before any redistribution or commercial use.

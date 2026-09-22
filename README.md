@@ -1,5 +1,8 @@
 # **"NineGrids" Multimodal Large Model Remote Sensing Analysis System - Operation Guide**
 
+![CI](https://img.shields.io/github/actions/workflow/status/Eric-YHS/RS-MLLM/ci.yml?branch=main&logo=githubactions&logoColor=white&label=CI)
+![License](https://img.shields.io/badge/code-MIT-orange)
+
 ## **System Demo**
 
 <div align="center">
@@ -205,3 +208,42 @@ python evaluate_official.py \ --model_path . \ --test_set_path ./valid(test) \ -
 
 Test the performance on a closed-source dataset.
 
+
+---
+
+### **7. Repository Layout**
+
+```plain
+.
+├── mul_lora_systems/          # Multi-LoRA system (this project's main contribution)
+│   ├── configs/               # lora_config.json / task_mapping.json / training_config.json
+│   ├── core/                  # lora_manager, lora_selector, task_classifier, multi_lora_inference
+│   ├── integration/           # baseline integration
+│   ├── training/              # text_to_lora_trainer.py, dataset_finetuner.py, data_formats.py
+│   └── demo.py                # end-to-end demo entry point
+├── evaluate_official.py       # benchmark evaluation entry point (VRSBench / MME-RealWorld RS)
+├── modeling_fm9g*.py, tokenization_*.py, resampler.py   # NineGrids remote code (upstream, see LICENSE)
+├── YAOGAN_CHAT-main/          # demo web system: React front-end + FastAPI/Celery back-end
+├── Dockerfile                 # inference environment image (weights are NOT baked in)
+└── requirements.txt           # torch 2.3.0 + transformers 4.44.2 + peft + vllm
+```
+
+The web system is started from its own compose file:
+
+```bash
+cd YAOGAN_CHAT-main
+docker compose up --build     # backend :8000, frontend :3000, redis, plus a Celery worker
+```
+
+The root `Dockerfile` only builds the Python/GPU environment; model weights are not stored in
+Git and are not copied into the image, so the weight directory has to be mounted at run time
+(see the comments inside the Dockerfile).
+
+### **8. Licence**
+
+The Multi-LoRA system and evaluation scripts (`mul_lora_systems/`, `evaluate_official.py`,
+`lora/`) are released under the [MIT Licence](LICENSE). The `modeling_*` / `tokenization_*` /
+`resampler.py` files are upstream model code and keep their original copyright headers and
+licences, `YAOGAN_CHAT-main/` ships without its own licence file, and the base model weights
+(`pytorch_model.bin`, not stored in this repository) are distributed by the NineGrids team under
+their own terms - see [LICENSE](LICENSE) for the full breakdown.
